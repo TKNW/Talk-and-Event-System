@@ -9,10 +9,10 @@ using System.Diagnostics.Tracing;
 public class UsageCase : MonoBehaviour
 {
     private ES_MessageSystem msgSys;
-    public UnityEngine.UI.Text uiText;
-    public UnityEngine.UI.Image CCG;
+    public Text uiText;
+    public Image CCG;
     public TextAsset textAsset;
-    public UnityEngine.UI.Text Name;
+    public Text Name;
     private List<string> textList = new List<string>();
     private int textIndex = 0;
     private GameObject Panel;
@@ -29,24 +29,20 @@ public class UsageCase : MonoBehaviour
         }
 
         //add special chars and functions in other component.
-        msgSys.AddSpecialCharToFuncMap("UsageCase", CustomizedFunction);
         msgSys.AddSpecialCharToFuncMap("Close", Closedialog);
         #region CCG
         msgSys.AddSpecialCharToFuncMap("M1", M1);
         msgSys.AddSpecialCharToFuncMap("M2", M2);
+        msgSys.AddSpecialCharToFuncMap("M6", M6);
         msgSys.AddSpecialCharToFuncMap("A1", A1);
+        msgSys.AddSpecialCharToFuncMap("A4", A4);
         #endregion
-    }
-
-    private void CustomizedFunction()
-    {
-        Debug.Log("Hi! This is called by CustomizedFunction!");
     }
     private void Closedialog()
     {
         Panel.SetActive(false);
         CCG.color = new Color(255,255,255,0);
-        Name.color = new Color(255,255,255,0);
+        Name.color = new Color(0,0,0,0);
         Istalking = false;
     }
     #region SpicF
@@ -58,7 +54,16 @@ public class UsageCase : MonoBehaviour
     {
         ChangeSP("portrait_kohaku_05","大鳥");
     }
+    private void M6()
+    {
+
+        ChangeSP("portrait_kohaku_06", "大鳥");
+    }
     private void A1()
+    {
+        ChangeSP("portrait_misaki_01", "美咲");
+    }
+    private void A4()
     {
         ChangeSP("portrait_misaki_04", "美咲");
     }
@@ -104,7 +109,7 @@ public class UsageCase : MonoBehaviour
         CCG.sprite = Resources.Load("PNG/"+ SPN,typeof(Sprite)) as Sprite;
         CCG.color = new Color(255, 255, 255, 1);
         Name.text = name;
-        Name.color = new Color(255, 255, 255, 1);
+        Name.color = new Color(0, 0, 0, 1);
     }
     public bool istalk()
     {
