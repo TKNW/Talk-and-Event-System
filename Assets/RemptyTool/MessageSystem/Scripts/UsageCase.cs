@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RemptyTool.ES_MessageSystem;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Diagnostics.Tracing;
 
 [RequireComponent(typeof(ES_MessageSystem))]
@@ -23,11 +24,12 @@ public class UsageCase : MonoBehaviour
     private GameObject Panel;
     private GameObject Select;
     private bool Istalking = false;
-
     private bool Isselecting = false;
-    private bool Waitforselect = false;
+    private bool Isans1;
+    private string[] Ansstr =new string[2] {"[Ans1end]\r", "[Ans2end]\r"}; //txt讀檔的時候會出現/r，要注意
     void Start()
     {
+        Debug.Log(Ansstr[0]);
         Panel = GameObject.Find("TalkCanvas");
         Select = GameObject.Find("SelectCanvas");
         Panel.SetActive(false);
@@ -42,12 +44,17 @@ public class UsageCase : MonoBehaviour
         //add special chars and functions in other component.
         msgSys.AddSpecialCharToFuncMap("Close", Closedialog);
         msgSys.AddSpecialCharToFuncMap("Select", AwakeSelect);
+        msgSys.AddSpecialCharToFuncMap("Ans1", Skiptalk1);
+        msgSys.AddSpecialCharToFuncMap("Ans2", Skiptalk2);
+        msgSys.AddSpecialCharToFuncMap("Ans1end", Ignore);
+        msgSys.AddSpecialCharToFuncMap("Ans2end", Ignore);
         #region CCG
         msgSys.AddSpecialCharToFuncMap("M1", M1);
         msgSys.AddSpecialCharToFuncMap("M2", M2);
         msgSys.AddSpecialCharToFuncMap("M6", M6);
         msgSys.AddSpecialCharToFuncMap("A1", A1);
         msgSys.AddSpecialCharToFuncMap("A4", A4);
+        msgSys.AddSpecialCharToFuncMap("A5", A5);
         #endregion
     }
     private void Closedialog()
@@ -66,7 +73,50 @@ public class UsageCase : MonoBehaviour
         textIndex++;
         Answer2.text = textList[textIndex];
         textIndex++;
+        StartCoroutine("highlightBtn");
         Select.SetActive(true);
+    }
+    private void Skiptalk1()
+    {
+        if (Isans1)
+            return;
+        else if(!Isans1)
+        {
+            while(textList[textIndex] != Ansstr[0])
+            {
+                Debug.Log(textList[textIndex]);
+                Debug.Log(textList[textIndex] != Ansstr[0]);
+                textIndex++;
+                if(textIndex == textList.Count)
+                {
+                    Debug.LogError("End cmd not Found!");
+                    break;
+                }
+            }
+        }
+    }
+    private void Skiptalk2()
+    {
+        if (!Isans1)
+            return;
+        else if (Isans1)
+        {
+            while (textList[textIndex] != Ansstr[1])
+            {
+                Debug.Log(textList[textIndex]);
+                Debug.Log(textList[textIndex] != Ansstr[1]);
+                textIndex++;
+                if (textIndex == textList.Count)
+                {
+                    Debug.LogError("End cmd not Found!");
+                    break;
+                }
+            }
+        }
+    }
+    private void Ignore()
+    {
+        return;
     }
     #region SpicF
     private void M1()
@@ -90,7 +140,24 @@ public class UsageCase : MonoBehaviour
     {
         ChangeSP("portrait_misaki_04", "美咲");
     }
+    private void A5()
+    {
+        ChangeSP("portrait_misaki_05", "美咲");
+    }
     #endregion
+    //for button control
+    public void Selectans1()
+    {
+        Isans1 = true;
+        Isselecting = false;
+        Select.SetActive(false);
+    }
+    public void Selectans2()
+    {
+        Isans1 = false;
+        Isselecting = false;
+        Select.SetActive(false);
+    }
     private void ReadTextDataFromAsset(TextAsset _textAsset)
     {
         textList.Clear();
@@ -138,12 +205,22 @@ public class UsageCase : MonoBehaviour
     {
         return Istalking;
     }
+    protected static EventSystem eventSystem
+    {
+        get { return GameObject.Find("EventSystem").GetComponent<EventSystem>(); }
+    }
+    IEnumerator highlightBtn()
+    {
+        eventSystem.SetSelectedGameObject(null);
+        yield return null;
+        eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
+    }
     void Update()
     {
 
         if (Istalking && !Isselecting)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 RunText();
             }

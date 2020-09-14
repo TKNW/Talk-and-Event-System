@@ -45,7 +45,7 @@ public class testscript : MonoBehaviour
         {
             if (!talkcontrol.istalk())
             {
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetKeyDown(KeyCode.Return))
                 {
                     talkcontrol.RunText(talktext);
                 }
