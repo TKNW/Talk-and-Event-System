@@ -29,7 +29,6 @@ public class UsageCase : MonoBehaviour
     private string[] Ansstr =new string[2] {"[Ans1end]\r", "[Ans2end]\r"}; //txt讀檔的時候會出現/r，要注意
     void Start()
     {
-        Debug.Log(Ansstr[0]);
         Panel = GameObject.Find("TalkCanvas");
         Select = GameObject.Find("SelectCanvas");
         Panel.SetActive(false);
@@ -46,8 +45,6 @@ public class UsageCase : MonoBehaviour
         msgSys.AddSpecialCharToFuncMap("Select", AwakeSelect);
         msgSys.AddSpecialCharToFuncMap("Ans1", Skiptalk1);
         msgSys.AddSpecialCharToFuncMap("Ans2", Skiptalk2);
-        msgSys.AddSpecialCharToFuncMap("Ans1end", Ignore);
-        msgSys.AddSpecialCharToFuncMap("Ans2end", Ignore);
         #region CCG
         msgSys.AddSpecialCharToFuncMap("M1", M1);
         msgSys.AddSpecialCharToFuncMap("M2", M2);
@@ -79,39 +76,33 @@ public class UsageCase : MonoBehaviour
     private void Skiptalk1()
     {
         if (Isans1)
+        {
+            textIndex++;
             return;
+        }
         else if(!Isans1)
         {
-            while(textList[textIndex] != Ansstr[0])
-            {
-                Debug.Log(textList[textIndex]);
-                Debug.Log(textList[textIndex] != Ansstr[0]);
-                textIndex++;
-                if(textIndex == textList.Count)
-                {
-                    Debug.LogError("End cmd not Found!");
-                    break;
-                }
-            }
+            int temp = 0;
+            if (!int.TryParse(textList[textIndex], out temp))
+                Debug.LogError("There is no number for skip!");
+            else
+                textIndex += int.Parse(textList[textIndex]) + 1;
         }
     }
     private void Skiptalk2()
     {
         if (!Isans1)
+        {
+            textIndex++;
             return;
+        }
         else if (Isans1)
         {
-            while (textList[textIndex] != Ansstr[1])
-            {
-                Debug.Log(textList[textIndex]);
-                Debug.Log(textList[textIndex] != Ansstr[1]);
-                textIndex++;
-                if (textIndex == textList.Count)
-                {
-                    Debug.LogError("End cmd not Found!");
-                    break;
-                }
-            }
+            int temp = 0;
+            if (!int.TryParse(textList[textIndex], out temp))
+                Debug.LogError("There is no number for skip!");
+            else
+                textIndex += int.Parse(textList[textIndex]) + 1;
         }
     }
     private void Ignore()

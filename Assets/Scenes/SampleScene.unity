@@ -683,20 +683,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7364117789764615881, guid: 0191aa59fc124f34a8a8649cbabb688c,
-        type: 3}
-      propertyPath: textSpeed
-      value: 0.0001
-      objectReference: {fileID: 0}
     - target: {fileID: 7364117789764615882, guid: 0191aa59fc124f34a8a8649cbabb688c,
         type: 3}
       propertyPath: m_Name
       value: MsgSystem
-      objectReference: {fileID: 0}
-    - target: {fileID: 7827658868363852782, guid: 0191aa59fc124f34a8a8649cbabb688c,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0191aa59fc124f34a8a8649cbabb688c, type: 3}
