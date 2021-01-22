@@ -176,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 85573079141171219, guid: 4051cb34832534a64a2f03cacaaa470e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 85573079141171219, guid: 4051cb34832534a64a2f03cacaaa470e,
         type: 3}
@@ -233,8 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908863c15fc4b914b811e1844f7cab32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talktext:
+  NPC_Name: Misaki
+  DialogName:
   - select2
+  IsActMission: 0
+  HasMission: 0
+  MissionName: 
+  MissionNumber: 0
 --- !u!1 &241313104
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +304,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -377,11 +382,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.84, y: -2.55, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5180001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1368359933}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &653526315 stripped
@@ -390,6 +395,26 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7827658868790886083}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &752566405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7364117789764615882, guid: 0191aa59fc124f34a8a8649cbabb688c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7827658868790886083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &752566408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752566405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d39a0b170759745aca7b37a3fdf8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadedMissions:
+    Missions: []
 --- !u!1001 &1368014434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -411,6 +436,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262276585873224673, guid: 91e8145eac0debf40a1a7184329d9d01,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262276585873224674, guid: 91e8145eac0debf40a1a7184329d9d01,
         type: 3}
@@ -470,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 1262276585873224677, guid: 91e8145eac0debf40a1a7184329d9d01,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262276585873224677, guid: 91e8145eac0debf40a1a7184329d9d01,
         type: 3}
@@ -498,6 +528,12 @@ PrefabInstance:
 --- !u!1 &1368359926 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 85573079141171228, guid: 4051cb34832534a64a2f03cacaaa470e,
+    type: 3}
+  m_PrefabInstance: {fileID: 18143240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1368359933 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 85573079141171219, guid: 4051cb34832534a64a2f03cacaaa470e,
     type: 3}
   m_PrefabInstance: {fileID: 18143240}
   m_PrefabAsset: {fileID: 0}
@@ -619,7 +655,7 @@ Transform:
   m_LocalScale: {x: 17.906055, y: 1.6769612, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7827658868790886083
 PrefabInstance:
@@ -666,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 7364117789764615880, guid: 0191aa59fc124f34a8a8649cbabb688c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7364117789764615880, guid: 0191aa59fc124f34a8a8649cbabb688c,
         type: 3}

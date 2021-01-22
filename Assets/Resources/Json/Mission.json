@@ -1,0 +1,30 @@
+{
+  "Missions": [
+    {
+      "Name": "幫助美咲",
+      "Number": 10,
+      "Type": 0,
+      "Phase": 1,
+      "Textname": "mission1start",
+      "NPCName": "Misaki",
+      "Tar": [
+        {
+          "TargetName": "Hat",
+          "TargetNum": 1
+        },
+        {
+          "TargetName": "Cloth",
+          "TargetNum": 1
+        }
+      ]
+    },
+    {
+      "Name": "任務2",
+      "Number": 2,
+      "Type": 1,
+      "Phase": 2,
+      "Textname": "mission2start",
+      "NPCName": "Misaki"
+    }
+  ]
+}

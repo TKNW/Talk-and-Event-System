@@ -5,16 +5,18 @@ using UnityEngine;
 public class testscript : MonoBehaviour
 {
     private UsageCase talkcontrol;
+    private MainSystem Masys;
     private bool cantalk = false;
     private string talktext;
+    private Collider2D Others;
     // Start is called before the first frame update
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)//此處需要改寫，要不然會話不會即時切換
     {
         switch (other.tag)
         {
             case "NPC":
                 cantalk = true;
-                talktext = other.GetComponent<NPCcontroller>().Gettalktext();
+                Others = other;
                 break;
             default:
                 break;
@@ -36,6 +38,7 @@ public class testscript : MonoBehaviour
     void Start()
     {
         talkcontrol = GameObject.Find("MsgSystem").GetComponent<UsageCase>();
+        Masys = GameObject.Find("MsgSystem").GetComponent<MainSystem>();
     }
 
     // Update is called once per frame
@@ -47,6 +50,12 @@ public class testscript : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    talktext = Others.GetComponent<NPCcontroller>().Gettalktext();
+                    if (Others.GetComponent<NPCcontroller>().HasMission)
+                    {
+                        Debug.Log(Others.GetComponent<NPCcontroller>().MissionNumber);
+                        Masys.SetNowMissionNum(Others.GetComponent<NPCcontroller>().MissionNumber);
+                    }
                     talkcontrol.RunText(talktext);
                 }
             }

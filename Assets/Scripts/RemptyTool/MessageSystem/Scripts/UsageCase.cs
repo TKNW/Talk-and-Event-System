@@ -10,6 +10,8 @@ using System.Diagnostics.Tracing;
 public class UsageCase : MonoBehaviour
 {
     private ES_MessageSystem msgSys;
+    private MainSystem MaSys;
+
     [Header("For talking")]
     public Text uiText;
     public Image CCG;
@@ -36,11 +38,13 @@ public class UsageCase : MonoBehaviour
         CCG.color = new Color(255, 255, 255, 0);
         Name.color = new Color(0, 0, 0, 0);
         msgSys = this.GetComponent<ES_MessageSystem>();
+        MaSys = this.GetComponent<MainSystem>();
         if (uiText == null)
         {
             Debug.LogError("UIText Component not assign.");
         }
         //add special chars and functions in other component.
+        msgSys.AddSpecialCharToFuncMap("AcceptMission", TakeMission);
         msgSys.AddSpecialCharToFuncMap("Close", Closedialog);
         msgSys.AddSpecialCharToFuncMap("Select", AwakeSelect);
         msgSys.AddSpecialCharToFuncMap("Ans1", Skiptalk1);
@@ -104,10 +108,6 @@ public class UsageCase : MonoBehaviour
             else
                 textIndex += int.Parse(textList[textIndex]) + 1;
         }
-    }
-    private void Ignore()
-    {
-        return;
     }
     #region SpicF
     private void M1()
@@ -205,6 +205,10 @@ public class UsageCase : MonoBehaviour
         eventSystem.SetSelectedGameObject(null);
         yield return null;
         eventSystem.SetSelectedGameObject(eventSystem.firstSelectedGameObject);
+    }
+    private void TakeMission()
+    {
+        MaSys.AddMission();
     }
     void Update()
     {
