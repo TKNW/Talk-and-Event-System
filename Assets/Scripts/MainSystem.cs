@@ -53,14 +53,57 @@ public class Target
     public int TargetNum;
 }
 #endregion
+#region Item class
+public enum ItemType
+{
+    Material,
+    Use,
+    Key,
+    Other
+}
+[Serializable]
+public class Item
+{
+    public int Number;
+    public string Name;
+    public ItemType Type;
+    public Item(int num, string name, ItemType type)
+    {
+        Number = num;
+        Name = name;
+        Type = type;
+    }
+    public Item()
+    {
+
+    }
+}
+[Serializable]
+public class AllItems
+{
+    public Item[] Items;
+}
+[Serializable]
+public class PlayerItem : Item
+{
+    public int Amount;
+    public PlayerItem(int num, string name, int amount)
+    {
+        Number = num;
+        Name = name;
+        Amount = amount;
+    }
+}
+#endregion
 public class MainSystem : MonoBehaviour
 {
+    public AllItems LoadItems;
     public AllMissions LoadedMissions;
     private int NowMissionNumber;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-        LoadMission();
+        LoadResource();
     }
     // Start is called before the first frame update
     void Start()
@@ -74,10 +117,13 @@ public class MainSystem : MonoBehaviour
         
     }
     #region Load
-    private void LoadMission()
+    private void LoadResource()
     {
         var jsonText = Resources.Load<TextAsset>("Json/Mission");
         LoadedMissions = JsonUtility.FromJson<AllMissions>(jsonText.text);
+        jsonText = Resources.Load<TextAsset>("Json/Item");
+        LoadItems = JsonUtility.FromJson<AllItems>(jsonText.text);
+        Debug.Log("Name:" + LoadItems.Items[0].Name + " No." + LoadItems.Items[0].Number+" Type:" + LoadItems.Items[0].Type);
         #endregion
     }
     public void AddMission()
@@ -91,7 +137,7 @@ public class MainSystem : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("AddMission: Can't find TargetMission.");
+        Debug.LogWarning("AddMission: Can't find TargetMission.");
         return;
     }
     public void SetNowMissionNum(int num)

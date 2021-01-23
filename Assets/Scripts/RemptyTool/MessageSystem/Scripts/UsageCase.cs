@@ -63,6 +63,8 @@ public class UsageCase : MonoBehaviour
         Panel.SetActive(false);
         CCG.color = new Color(255,255,255,0);
         Name.color = new Color(0,0,0,0);
+        uiText.text = "";
+        Name.text = "";
         Istalking = false;
     }
     private void AwakeSelect()

@@ -10,7 +10,7 @@ public class testscript : MonoBehaviour
     private string talktext;
     private Collider2D Others;
     // Start is called before the first frame update
-    void OnTriggerEnter2D(Collider2D other)//此處需要改寫，要不然會話不會即時切換
+    void OnTriggerEnter2D(Collider2D other)
     {
         switch (other.tag)
         {
@@ -46,20 +46,24 @@ public class testscript : MonoBehaviour
     {
         if (cantalk)
         {
-            if (!talkcontrol.istalk())
-            {
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    talktext = Others.GetComponent<NPCcontroller>().Gettalktext();
-                    if (Others.GetComponent<NPCcontroller>().HasMission)
-                    {
-                        Debug.Log(Others.GetComponent<NPCcontroller>().MissionNumber);
-                        Masys.SetNowMissionNum(Others.GetComponent<NPCcontroller>().MissionNumber);
-                    }
-                    talkcontrol.RunText(talktext);
-                }
-            }
+            Talk();
         }
         
+    }
+    void Talk()
+    {
+        if (!talkcontrol.istalk())
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                talktext = Others.GetComponent<NPCcontroller>().Gettalktext();
+                if (Others.GetComponent<NPCcontroller>().HasMission)
+                {
+                    Debug.Log(Others.GetComponent<NPCcontroller>().MissionNumber);
+                    Masys.SetNowMissionNum(Others.GetComponent<NPCcontroller>().MissionNumber);
+                }
+                talkcontrol.RunText(talktext);
+            }
+        }
     }
 }

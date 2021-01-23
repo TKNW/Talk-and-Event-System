@@ -77,7 +77,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!1 &378620673762699455
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 7364117789764615880}
   - component: {fileID: 7364117789764615881}
   - component: {fileID: 7364117789764615887}
+  - component: {fileID: 752566408}
   m_Layer: 0
   m_Name: MsgSystem V.2
   m_TagString: Untagged
@@ -421,6 +422,20 @@ MonoBehaviour:
   Name: {fileID: 7827658869321798054}
   Answer1: {fileID: 7827658868420884798}
   Answer2: {fileID: 7827658868946778197}
+--- !u!114 &752566408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7364117789764615882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d39a0b170759745aca7b37a3fdf8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadedMissions:
+    Missions: []
 --- !u!1 &7827658867977449965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1026,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!1 &7827658869562498482
 GameObject:
   m_ObjectHideFlags: 0

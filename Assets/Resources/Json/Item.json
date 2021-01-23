@@ -1,0 +1,14 @@
+{
+  "Items": [
+    {
+      "Name": "Cloth",
+      "Number": 1,
+      "Type": 2
+    },
+    {
+      "Name": "Hat",
+      "Number": 2,
+      "Type": 2
+    }
+  ]
+}
