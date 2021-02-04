@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NPCcontroller : MonoBehaviour
 {
-    MainSystem MS;
+    MainSystem Masys;
     [Header("NPC Setting")]
     public string NPC_Name;
     public string[] DialogName;
@@ -23,11 +23,18 @@ public class NPCcontroller : MonoBehaviour
         {
             if (!IsActMission)
             {
+                Masys.SetnowMission(MissionNumber);
                 return "Missions/Mission" + MissionNumber + "Start";
             }
             else if (IsActMission)
             {
-                return "Missions/Mission" + MissionNumber + "Stuck";
+                if (CheckCompleted())
+                {
+                    MissionComplete();
+                    return "Missions/Mission" + MissionNumber + "Finish";
+                }
+                else
+                    return "Missions/Mission" + MissionNumber + "Stuck";
             }
         }
         Debug.Log("Gettalktext: There's no Dialog to say.");
@@ -39,9 +46,9 @@ public class NPCcontroller : MonoBehaviour
     }
     private bool CheckCompleted()
     {
-        return true;
+        return Masys.CheckMissionisComplete(MissionNumber);
     }
-    public void MissionComplete()
+    private void MissionComplete()
     {
         IsActMission = false;
         HasMission = false;
@@ -49,7 +56,7 @@ public class NPCcontroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MS = GameObject.Find("MsgSystem").GetComponent<MainSystem>();
+        Masys = GameObject.Find("MsgSystem").GetComponent<MainSystem>();
     }
 
     // Update is called once per frame

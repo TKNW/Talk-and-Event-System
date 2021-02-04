@@ -18,6 +18,10 @@ public class testscript : MonoBehaviour
                 cantalk = true;
                 Others = other;
                 break;
+            case "Item":
+                if (GetItem(other.GetComponent<ItemController>().ItemName))
+                    Destroy(other.gameObject);
+                break;
             default:
                 break;
         }
@@ -48,7 +52,7 @@ public class testscript : MonoBehaviour
         {
             Talk();
         }
-        
+
     }
     void Talk()
     {
@@ -57,13 +61,17 @@ public class testscript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 talktext = Others.GetComponent<NPCcontroller>().Gettalktext();
-                if (Others.GetComponent<NPCcontroller>().HasMission)
-                {
-                    Debug.Log(Others.GetComponent<NPCcontroller>().MissionNumber);
-                    Masys.SetNowMissionNum(Others.GetComponent<NPCcontroller>().MissionNumber);
-                }
                 talkcontrol.RunText(talktext);
             }
         }
     }
+    bool GetItem(string name)
+    {
+        return Masys.AddItemtoPlayer(name);
+    }
+    bool DropItem(string name)
+    {
+        return Masys.DropItemfromPlayer(name);
+    }
+        
 }

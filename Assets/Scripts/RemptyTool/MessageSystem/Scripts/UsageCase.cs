@@ -28,7 +28,6 @@ public class UsageCase : MonoBehaviour
     private bool Istalking = false;
     private bool Isselecting = false;
     private bool Isans1;
-    private string[] Ansstr =new string[2] {"[Ans1end]\r", "[Ans2end]\r"}; //txt讀檔的時候會出現/r，要注意
     void Start()
     {
         Panel = GameObject.Find("TalkCanvas");

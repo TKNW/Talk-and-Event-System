@@ -52,6 +52,11 @@ public class Target
     public string TargetName;
     public int TargetNum;
 }
+[Serializable]
+public class PlayerMissions
+{
+    public List<int> Missions;
+}
 #endregion
 #region Item class
 public enum ItemType
@@ -67,6 +72,7 @@ public class Item
     public int Number;
     public string Name;
     public ItemType Type;
+    public int Amount = 0;
     public Item(int num, string name, ItemType type)
     {
         Number = num;
@@ -82,16 +88,97 @@ public class Item
 public class AllItems
 {
     public Item[] Items;
+    public Item CheckItemisvalid(string name)
+    {
+        foreach(Item i in Items)
+        {
+            if(i.Name == name)
+            {
+                Debug.Log("Valid"); 
+                return i;
+            }
+        }
+        Debug.LogError("Check: Item's name is not exist.");
+        return null;
+    }
+    public Item CheckItemisvalid(int number)
+    {
+        foreach (Item i in Items)
+        {
+            if (i.Number == number)
+            {
+                return i;
+            }
+        }
+        Debug.LogError("Check: Item's name is not exist.");
+        return null;
+    }
 }
 [Serializable]
-public class PlayerItem : Item
+public class PlayerItems
 {
-    public int Amount;
-    public PlayerItem(int num, string name, int amount)
+    public List<Item> Items;
+    public void AddItem(Item item)
     {
-        Number = num;
-        Name = name;
-        Amount = amount;
+        foreach(Item i in Items)
+        {
+            if(item.Name == i.Name)
+            {
+                i.Amount++;
+                return;
+            }
+        }
+        item.Amount = 1;
+        Items.Add(item);
+        foreach(Item i in Items)
+        {
+            Debug.Log("Name:" +i.Name +" Type:"+ i.Type +"Number:" + i.Number + "Amount:" + i.Amount);
+        }
+        return;
+    }
+    public void AddItem(Item item,int number)
+    {
+        foreach (Item i in Items)
+        {
+            if (item.Name == i.Name)
+            {
+                i.Amount+=number;
+                return;
+            }
+        }
+        item.Amount = number;
+        Items.Add(item);
+        foreach (Item i in Items)
+        {
+            Debug.Log("Name:" + i.Name + " Type:" + i.Type + "Number:" + i.Number + "Amount:" + i.Amount);
+        }
+        return;
+    }
+    public void DeleteItem(Item item)
+    {
+        foreach (Item i in Items)
+        {
+            if (item.Name == i.Name && i.Amount > 1)
+            {
+                i.Amount--;
+                return;
+            }
+        }
+        Items.Remove(item);
+        return;
+    }
+    public void DeleteItem(Item item,int number)
+    {
+        foreach (Item i in Items)
+        {
+            if (item.Name == i.Name && i.Amount > number)
+            {
+                i.Amount-=number;
+                return;
+            }
+        }
+        Items.Remove(item);
+        return;
     }
 }
 #endregion
@@ -99,6 +186,8 @@ public class MainSystem : MonoBehaviour
 {
     public AllItems LoadItems;
     public AllMissions LoadedMissions;
+    public PlayerItems Item_in_hands;
+    public PlayerMissions Mission_in_activate;
     private int NowMissionNumber;
     private void Awake()
     {
@@ -123,25 +212,81 @@ public class MainSystem : MonoBehaviour
         LoadedMissions = JsonUtility.FromJson<AllMissions>(jsonText.text);
         jsonText = Resources.Load<TextAsset>("Json/Item");
         LoadItems = JsonUtility.FromJson<AllItems>(jsonText.text);
-        Debug.Log("Name:" + LoadItems.Items[0].Name + " No." + LoadItems.Items[0].Number+" Type:" + LoadItems.Items[0].Type);
         #endregion
+    }
+    public void SetnowMission(int _number)
+    {
+        NowMissionNumber = _number;
     }
     public void AddMission()
     {
-        GameObject[] NPCs = GameObject.FindGameObjectsWithTag("NPC");
-        foreach(GameObject i in NPCs)
+        if (Mission_in_activate.Missions.Exists(x => x == NowMissionNumber))
         {
-            if (i.GetComponent<NPCcontroller>().MissionNumber == NowMissionNumber)
-            {
-                i.GetComponent<NPCcontroller>().MissionAccept();
-                return;
-            }
+            Debug.LogWarning("This Mission has already added.");
+            return;
         }
-        Debug.LogWarning("AddMission: Can't find TargetMission.");
+        Debug.Log(LoadedMissions.Missions[NowMissionNumber - 1].NPCName);
+        NPCcontroller NPC = GameObject.Find(LoadedMissions.Missions[NowMissionNumber - 1].NPCName).GetComponent<NPCcontroller>();
+        NPC.MissionAccept();
+        Mission_in_activate.Missions.Add(NowMissionNumber);
         return;
     }
-    public void SetNowMissionNum(int num)
+    public bool CheckMissionisComplete(int missionnumber)
     {
-        NowMissionNumber = num;
+        foreach(Target target in LoadedMissions.Missions[missionnumber - 1].Tar)
+        {
+            Item itemforcheck = Item_in_hands.Items.Find(x => x.Name == target.TargetName);
+            if(itemforcheck == null || itemforcheck.Number < target.TargetNum)
+            {
+                Debug.Log("False");
+                return false;
+            }
+        }
+        foreach (Target target in LoadedMissions.Missions[missionnumber - 1].Tar)
+        {
+            DropItemfromPlayer(target.TargetName,target.TargetNum);
+        }
+        Debug.Log("True");
+        return true;
+    }
+    public bool AddItemtoPlayer(string _itemname)
+    {
+        Item target = LoadItems.CheckItemisvalid(_itemname);
+        if(target != null)
+        {
+            Item_in_hands.AddItem(target);
+            return true;
+        }
+        return false;
+    }
+    public bool AddItemtoPlayer(string _itemname,int _number)
+    {
+        Item target = LoadItems.CheckItemisvalid(_itemname);
+        if (target != null)
+        {
+            Item_in_hands.AddItem(target,_number);
+            return true;
+        }
+        return false;
+    }
+    public bool DropItemfromPlayer(string _itemname)
+    {
+        Item target = LoadItems.CheckItemisvalid(_itemname);
+        if(target != null)
+        {
+            Item_in_hands.DeleteItem(target);
+            return true;
+        }
+        return false;
+    }
+    public bool DropItemfromPlayer(string _itemname,int _number)
+    {
+        Item target = LoadItems.CheckItemisvalid(_itemname);
+        if (target != null)
+        {
+            Item_in_hands.DeleteItem(target,_number);
+            return true;
+        }
+        return false;
     }
 }
